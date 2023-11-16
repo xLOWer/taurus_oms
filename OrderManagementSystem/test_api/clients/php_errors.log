@@ -1,0 +1,29 @@
+[09-Nov-2023 06:19:50 UTC] PHP Warning:  include_once(../model/clients.php): Failed to open stream: No such file or directory in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\clients\list.php on line 4
+[09-Nov-2023 06:19:50 UTC] PHP Warning:  include_once(): Failed opening '../model/clients.php' for inclusion (include_path='.;C:\php\pear') in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\clients\list.php on line 4
+[09-Nov-2023 06:19:54 UTC] PHP Fatal error:  Uncaught ReflectionException: Class "Client" does not exist in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\clients\list.php:8
+Stack trace:
+#0 D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\clients\list.php(8): ReflectionClass->__construct('Client')
+#1 {main}
+  thrown in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\clients\list.php on line 8
+[09-Nov-2023 06:20:28 UTC] PHP Warning:  include_once(../model/client.php): Failed to open stream: No such file or directory in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\clients\list.php on line 4
+[09-Nov-2023 06:20:28 UTC] PHP Warning:  include_once(): Failed opening '../model/client.php' for inclusion (include_path='.;C:\php\pear') in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\clients\list.php on line 4
+[09-Nov-2023 06:20:28 UTC] PHP Fatal error:  Uncaught ReflectionException: Class "Client" does not exist in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\clients\list.php:8
+Stack trace:
+#0 D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\clients\list.php(8): ReflectionClass->__construct('Client')
+#1 {main}
+  thrown in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\clients\list.php on line 8
+[09-Nov-2023 06:20:55 UTC] PHP Warning:  include_once(../model/client.php): Failed to open stream: No such file or directory in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\clients\list.php on line 4
+[09-Nov-2023 06:20:55 UTC] PHP Warning:  include_once(): Failed opening '../model/client.php' for inclusion (include_path='.;C:\php\pear') in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\clients\list.php on line 4
+[09-Nov-2023 06:20:55 UTC] PHP Fatal error:  Uncaught ReflectionException: Class "Client" does not exist in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\clients\list.php:8
+Stack trace:
+#0 D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\clients\list.php(8): ReflectionClass->__construct('Client')
+#1 {main}
+  thrown in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\clients\list.php on line 8
+[09-Nov-2023 06:22:57 UTC] PHP Warning:  require_once(../model/client.php): Failed to open stream: No such file or directory in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\clients\list.php on line 4
+[09-Nov-2023 06:22:57 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '../model/client.php' (include_path='.;C:\php\pear') in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\clients\list.php:4
+Stack trace:
+#0 {main}
+  thrown in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\clients\list.php on line 4
+[09-Nov-2023 06:25:05 UTC] PHP Parse error:  syntax error, unexpected token ";" in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\model\client.php on line 9
+[09-Nov-2023 06:25:06 UTC] PHP Parse error:  syntax error, unexpected token ";" in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\model\client.php on line 9
+[09-Nov-2023 06:27:22 UTC] PHP Fatal error:  Cannot use int as default value for property Client::$last_update_date of type string in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\model\client.php on line 16
