@@ -10,10 +10,10 @@ class Mapping
     public function __construct()
     {
         //$this->Map(Relation::OneToMany, "User", "client_id", "Client", "client_id", "Client");
-        $this->Map(RelationType::OneToMany, "User", "client_id", "Client");
+        $this->OneToMany(RelationType::OneToMany, "User", "client_id", "Client");
     }
 
-    public function Map(RelationType $rel_type,
+    public function OneToMany(RelationType $rel_type,
                         string $rel_parent, 
                         string $rel_parent_link_id,
                         string $rel_parent_link_entity)
@@ -53,31 +53,16 @@ class Mapping
         Mapping::$map []= $relation;
     }
 
-    public function Map1(RelationType $rel_type, 
-                        string $rel_parent, 
-                        string $rel_link, 
-                        string $rel_parent_link_id, 
-                        string $rel_link_id,
-                        string $rel_parent_link_entity)
-    {       
-        $relation = new Relation();
-        $relation->type = $rel_type;
-        $relation->parent = $rel_parent;
-        $relation->link = $rel_link;
-        $relation->parent_link_id = $rel_parent_link_id;
-        $relation->link_id = $rel_link_id;
-        $relation->parent_link_entity = $rel_parent_link_entity;
-        Mapping::$map []= $relation;
-    }
+    
 }
 
 class Relation
 {
     public RelationType $type;
-    public string $parent = ''; // имя класса родителя
-    public string $link = ''; // имя класса линка
-    public string $parent_link_id = ''; // имя поля, которое коннектим в линк
-    public string $link_id = ''; // id в классе линка
+    public string $parent = '';             // имя класса родителя
+    public string $link = '';               // имя класса линка
+    public string $parent_link_id = '';     // через что коннектим в линк
+    public string $link_id = '';            // id в классе линка
     public string $parent_link_entity = ''; // поле в родителе к которому линкуем
 }
 
