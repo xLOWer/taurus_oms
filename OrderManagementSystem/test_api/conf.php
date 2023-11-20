@@ -5,18 +5,24 @@ class ConfigLoader
     {        
         if($conf_file != null)
         {
-            $reflectionClass = new ReflectionClass(new ConfigLoader(null));
             if(file_exists($conf_file))
             {
                 $conf_text = file_get_contents($conf_file, FILE_USE_INCLUDE_PATH);
                 $conf_json = json_decode($conf_text, JSON_OBJECT_AS_ARRAY);
-                $reflectionProperties = $reflectionClass->getProperties();
+                if(empty($conf_json))
+                {
+                    throw new Exception("Файл конфигурации ".$conf_file." существует, но имеет некорректные параметры");
+                }
+                $reflectionProperties = (new ReflectionClass(new ConfigLoader(null)))->getProperties();
+                
                 foreach($reflectionProperties as $reflectionProperty)
                 {
                     $fieldName = $reflectionProperty->getName();
                     $this->$fieldName = $conf_json[$fieldName];
                 }
-                
+            }
+            else{
+                throw new Exception("Файл конфигурации ".$conf_file." не существует или недоступен для чтения");
             }
         }
     }

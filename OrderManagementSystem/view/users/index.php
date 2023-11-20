@@ -60,7 +60,7 @@
       </div>
     </nav>
 
-    <div id="users-content" style="text-color:white;"></div>
+    <div id="users-content"></div>
     <div id="liveAlertPlaceholder"></div>
 
 
