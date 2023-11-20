@@ -1,144 +1,68 @@
 <?php
-require_once("../conf.php");
+namespace TaurusOmsApi\Core{
+    
+    use ReflectionClass;
+    use mysqli;
+    use Exception;
+    use TaurusOmsApi\Core;
+    
 
-class Mysql_core
-{
-    public ?mysqli $connection;
-
-    public function __construct($sql_ip = null, $sql_login = null, $sql_pwd = null, $sql_db = null)
+    class Mysql_core
     {
-        $conf = new ConfigLoader("../config.json");
-        $this->connection = new mysqli($conf->sql_ip, $conf->sql_login, $conf->sql_pwd, $conf->sql_db);
-        if ($this->connection->connect_error)
-        {
-            throw new Exception("<br><br>Connection failed: " . $this->connection->connect_error);
-        }
-        mysqli_set_charset($this->connection, "utf8mb4");
-    }
+        private ?mysqli $connection;
 
-    public function GetEntityById(ReflectionClass $reflectionClass, string $id)
-    {
-        $result = $reflectionClass->newInstance();
-        $sql = $this->getSelectSql($reflectionClass, $id);
-        print_r($sql);
-        /*
-        if ($this->connection->connect_error)
+        public function __construct($sql_ip = null, $sql_login = null, $sql_pwd = null, $sql_db = null)
         {
-            die("<br><br>Connection failed: " . $this->connection->connect_error);
-        }
-        else
-        {
-            $sql = $this->getSelectSql($reflectionClass, $id);
-            if($result = $this->connection->query($sql))
+            $this->connection = new mysqli($sql_ip, $sql_login, $sql_pwd, $sql_db);
+            if ($this->connection->connect_error)
             {
-                $list = $this->constructEntityByQueryResult($result, $reflectionClass);
+                throw new Exception("<br><br>Connection failed: " . $this->connection->connect_error);
             }
-            else
-            {
-                echo "<br><br>Ошибка: " . $this->connection->error;
-            }
+            mysqli_set_charset($this->connection, "utf8mb4");
         }
-        $this->connection->close();
-        */
-        return $result;
-    }
 
-    public function GetEntityList(ReflectionClass $reflectionClass)
-    {
-        $list = [];
-        if ($this->connection->connect_error)
+        public static function getSelectSql(ReflectionClass $ref, ?string $id = null)
         {
-            throw new Exception("<br><br>Connection failed: " . $this->connection->connect_error);
-        }
-        else
-        {
-            $sql = $this->getSelectSql($reflectionClass);
-            //print_r($sql."\r\n");
-            if($result = $this->connection->query($sql))
-            {
-                $list = $this->constructEntityByQueryResult($result, $reflectionClass);
-            }
-            else
-            {
-                throw new Exception("<br><br>Ошибка: " . $this->connection->error);
-            }
-        }
-        $this->connection->close();
-        return $list;
-    }
+            $sql = '';
+            $sql_where = '';
+            $selectFields = '';
+            $tableName = '';
+            $refProps = $ref->getProperties();
+            $attributes = $ref->getAttributes();
 
-    public static function constructEntityByQueryResult(object $result, ReflectionClass $reflectionClass)
-    {
-        $list = [];
-        $reflectionProperties = $reflectionClass->getProperties();
-        $reset_flag = false;
-        while($row = $result->fetch_array())
-        {
-            $item = $reflectionClass->newInstance();
-            foreach ($reflectionProperties as $refProp) 
+            foreach ($attributes as $attr)
             {
-                $reset_flag = false;
+                $inst = $attr->newInstance();
+                if(get_class($inst) == 'TableName')
+                {
+                    $tableName = $inst->tableName;
+                }
+            }
+            
+            foreach ($refProps as $refProp) 
+            {            
+                $prop_name = '`'.$refProp->getName().'`,';
                 foreach ($refProp->getAttributes() as $attr)
                 {
+                    if(get_class($attr->newInstance()) == 'EntityId' && $id != null)
+                    {
+                        $sql_where = ' WHERE '.substr($prop_name,0,-1).'='.$id;
+                    }
                     if(get_class($attr->newInstance()) == 'LinkedEntity')
                     {
-                        $reset_flag = true;
+                        $prop_name='';
                     }
                 }
-                if(!$reset_flag)
-                {
-                    $fieldName = $refProp->getName();
-                    $item->$fieldName = $row[$fieldName];
-                    //print_r($refProp->getName()."\r\n");
-                }
+                
+                $selectFields .= $prop_name;
+                
             }
-            $list []= $item;
+
+            $sql = 'select '.substr($selectFields,0,-1).' from `'.$tableName.'`'.$sql_where;
+            //print_r($sql);
+            return $sql;
         }
-        return $list;
+
     }
-
-    public static function getSelectSql(ReflectionClass $ref, ?string $id = null)
-    {
-        $sql = '';
-        $sql_where = '';
-        $selectFields = '';
-        $tableName = '';
-        $refProps = $ref->getProperties();
-        $attributes = $ref->getAttributes();
-
-        foreach ($attributes as $attr)
-        {
-            $inst = $attr->newInstance();
-            if(get_class($inst) == 'TableName')
-            {
-                $tableName = $inst->tableName;
-            }
-        }
-        
-        foreach ($refProps as $refProp) 
-        {            
-            $prop_name = '`'.$refProp->getName().'`,';
-            foreach ($refProp->getAttributes() as $attr)
-            {
-                if(get_class($attr->newInstance()) == 'EntityId' && $id != null)
-                {
-                    $sql_where = ' WHERE '.substr($prop_name,0,-1).'='.$id;
-                }
-                if(get_class($attr->newInstance()) == 'LinkedEntity')
-                {
-                    $prop_name='';
-                }
-            }
-            
-            $selectFields .= $prop_name;
-            
-        }
-
-        $sql = 'select '.substr($selectFields,0,-1).' from `'.$tableName.'`'.$sql_where;
-        //print_r($sql);
-        return $sql;
-    }
-
 }
-
 ?>

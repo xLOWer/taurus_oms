@@ -1126,3 +1126,83 @@ Stack trace:
 Stack trace:
 #0 {main}
   thrown in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\users\list.php on line 19
+[20-Nov-2023 03:19:14 UTC] PHP Fatal error:  Uncaught Error: Class "Mysql_core" not found in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\users\list.php:13
+Stack trace:
+#0 {main}
+  thrown in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\users\list.php on line 13
+[20-Nov-2023 03:44:58 UTC] PHP Fatal error:  Uncaught Error: Class "TaurusOmsApi\Core\EntityFramework\EntityFramework" not found in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\users\list.php:17
+Stack trace:
+#0 {main}
+  thrown in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\users\list.php on line 17
+[20-Nov-2023 03:46:41 UTC] PHP Fatal error:  Uncaught Error: Class "TaurusOmsApi\Core\EntityFramework\EntityFramework" not found in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\users\list.php:17
+Stack trace:
+#0 {main}
+  thrown in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\users\list.php on line 17
+[20-Nov-2023 03:46:41 UTC] PHP Fatal error:  Uncaught Error: Class "TaurusOmsApi\Core\EntityFramework\EntityFramework" not found in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\users\list.php:17
+Stack trace:
+#0 {main}
+  thrown in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\users\list.php on line 17
+[20-Nov-2023 03:46:42 UTC] PHP Fatal error:  Uncaught Error: Class "TaurusOmsApi\Core\EntityFramework\EntityFramework" not found in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\users\list.php:17
+Stack trace:
+#0 {main}
+  thrown in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\users\list.php on line 17
+[20-Nov-2023 03:51:30 UTC] PHP Fatal error:  Uncaught Error: Class "TaurusOmsApi\Core\EntityFramework\EntityFramework" not found in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\users\list.php:17
+Stack trace:
+#0 {main}
+  thrown in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\users\list.php on line 17
+[20-Nov-2023 03:51:31 UTC] PHP Fatal error:  Uncaught Error: Class "TaurusOmsApi\Core\EntityFramework\EntityFramework" not found in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\users\list.php:17
+Stack trace:
+#0 {main}
+  thrown in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\users\list.php on line 17
+[20-Nov-2023 03:54:22 UTC] PHP Fatal error:  Uncaught Error: Class "TaurusOmsApi\Core\EntityFramework" not found in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\users\list.php:17
+Stack trace:
+#0 {main}
+  thrown in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\users\list.php on line 17
+[20-Nov-2023 03:54:44 UTC] PHP Fatal error:  Uncaught Error: Class "TaurusOmsApi\EntityFramework" not found in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\users\list.php:17
+Stack trace:
+#0 {main}
+  thrown in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\users\list.php on line 17
+[20-Nov-2023 03:55:09 UTC] PHP Fatal error:  Uncaught Error: Class "TaurusOmsApi\EntityFramework" not found in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\users\list.php:17
+Stack trace:
+#0 {main}
+  thrown in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\users\list.php on line 17
+[20-Nov-2023 03:56:13 UTC] PHP Fatal error:  Uncaught Error: Class "TaurusOmsApi\EntityFramework" not found in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\users\list.php:17
+Stack trace:
+#0 {main}
+  thrown in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\users\list.php on line 17
+[20-Nov-2023 03:56:50 UTC] PHP Fatal error:  Uncaught Error: Class "TaurusOmsApi\Core\EntityFramework\EntityFramework" not found in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\users\list.php:17
+Stack trace:
+#0 {main}
+  thrown in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\users\list.php on line 17
+[20-Nov-2023 03:57:05 UTC] PHP Fatal error:  Uncaught Error: Class "TaurusOmsApi\Core\EntityFramework\EntityFramework" not found in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\users\list.php:18
+Stack trace:
+#0 {main}
+  thrown in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\users\list.php on line 18
+[20-Nov-2023 03:57:31 UTC] PHP Fatal error:  Uncaught Error: Class "TaurusOmsApi\Core\EntityFramework\EntityFramework" not found in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\users\list.php:17
+Stack trace:
+#0 {main}
+  thrown in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\users\list.php on line 17
+[20-Nov-2023 04:03:32 UTC] PHP Fatal error:  Uncaught Error: Class "TaurusOmsApi\Core\EntityFramework\EntityFramework" not found in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\users\list.php:17
+Stack trace:
+#0 {main}
+  thrown in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\users\list.php on line 17
+[20-Nov-2023 04:36:12 UTC] PHP Fatal error:  Uncaught Error: Class "TaurusOmsApi\Core\EntityFramework\EntityFramework" not found in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\users\list.php:17
+Stack trace:
+#0 {main}
+  thrown in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\users\list.php on line 17
+[20-Nov-2023 04:59:09 UTC] PHP Fatal error:  Uncaught Error: Class "TaurusOmsApi\Core\EntityFramework\EntityFramework" not found in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\users\list.php:17
+Stack trace:
+#0 {main}
+  thrown in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\users\list.php on line 17
+[20-Nov-2023 04:59:10 UTC] PHP Fatal error:  Uncaught Error: Class "TaurusOmsApi\Core\EntityFramework\EntityFramework" not found in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\users\list.php:17
+Stack trace:
+#0 {main}
+  thrown in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\users\list.php on line 17
+[20-Nov-2023 04:59:53 UTC] PHP Fatal error:  Uncaught Error: Class "TaurusOmsApi\Core\EntityFramework\EntityFramework" not found in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\users\list.php:17
+Stack trace:
+#0 {main}
+  thrown in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\users\list.php on line 17
+[20-Nov-2023 05:00:19 UTC] PHP Fatal error:  Uncaught Error: Class "TaurusOmsApi\Core\EntityFramework\EntityFramework" not found in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\users\list.php:17
+Stack trace:
+#0 {main}
+  thrown in D:\!SRV\wwwroot\localhost\OrderManagementSystem\test_api\users\list.php on line 17

@@ -1,25 +1,28 @@
 <?php
-include_once 'common.php';
-include_once 'client.php';
-include_once 'mapping.php';
-
-#[TableName('users')]
-class User
+namespace TaurusOmsApi\Core\Model
 {
-	#[EntityId]
-	public int $user_id = 0;
-	public string $email = '';
-	public string $password_hash = '';
-	public string $last_login = '';
-	public ?string $description = null;
-	public ?int $client_id = null;
-	public ?int $priv_group_id = null;
-	public string $registred_date = '';
-	public ?string $is_deleted = null;
+	use TaurusOmsApi\Core\TableName;
+	use TaurusOmsApi\Core\EntityId;
+	use TaurusOmsApi\Core\LinkedEntity;
 
-	#[LinkedEntity]
-	public ?Client $Client;	
-	//#[LinkedEntity]
-	//public ?PrivGroup $PrivGroup;
+	#[TableName('users')]
+	class User
+	{
+		#[EntityId]
+		public int $user_id = 0;
+		public string $email = '';
+		public string $password_hash = '';
+		public string $last_login = '';
+		public ?string $description = null;
+		public ?int $client_id = null;
+		public ?int $priv_group_id = null;
+		public string $registred_date = '';
+		public ?string $is_deleted = null;
+
+		#[LinkedEntity]
+		public ?Client $Client;	
+		//#[LinkedEntity]
+		//public ?PrivGroup $PrivGroup;
+	}
 }
 ?>
