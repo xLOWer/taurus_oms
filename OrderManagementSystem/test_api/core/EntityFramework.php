@@ -1,67 +1,151 @@
 <?php 
-namespace TaurusOmsApi\Core\EntityFramework
+namespace TaurusOmsApi
 {
     use ReflectionClass;
     use mysqli;
     use Exception;
-    use TaurusOmsApi\Core\Configuration;
-    
+    use TaurusOmsApi\Configuration\Configuration;
+    use TaurusOmsApi\DatabaseInterface;
 
     class EntityFramework
     {
-        private mysqli $connection;
+        private DatabaseInterface $dbi;
 
-        public function __construct(mysqli $connection = null) 
+        public function __construct(DatabaseInterface $dbi = null) 
         {            
             $conf = new Configuration("../config.json");
-            if($connection == null)
+            if($dbi == null)
             {
-                $this->connection = new mysqli($conf->sql_ip, $conf->sql_login, $conf->sql_pwd, $conf->sql_db);
+                $this->dbi = new mysqli($conf->sql_ip, $conf->sql_login, $conf->sql_pwd, $conf->sql_db);
             }
             else
             {
-                $this->connection = $connection;
+                $this->dbi = $dbi;
             }
 
         }
 
-        public function UpdateEntityById(ReflectionClass $reflectionClass, string $id){}
-        public function DeleteEntityById(ReflectionClass $reflectionClass, string $id){}
-        public function EntityById(ReflectionClass $reflectionClass, string $id){}
+        public function UpdateSingleEntity(ReflectionClass $reflectionClass, string $id){}
+        public function DeleteSingleEntity(ReflectionClass $reflectionClass, string $id){}
 
-        public function GetEntityById(ReflectionClass $reflectionClass, string $id)
+        public function GetSingleEntity(ReflectionClass $reflectionClass, string $id)
         {
             $result = $reflectionClass->newInstance();
-            $sql = $this->connection->getSelectSql($reflectionClass, $id);
-            print_r($sql);
+            //$sql = $this->dbi->getSelectSql($reflectionClass, $id);
+            //print_r($sql);
             return $result;
         }
 
-        public function GetEntityList(ReflectionClass $reflectionClass)
+        public function GetListOfEntities(ReflectionClass $reflectionClass)
         {
-            $list = [];
-            if ($this->connection->connect_error)
+            $entitiyList = [];
+            $sql = $this->getListSelectQuery($reflectionClass);
+            if($result = $this->dbi->SelectQuery($sql))
             {
-                throw new Exception("<br><br>Connection failed: " . $this->connection->connect_error);
+                
+                $entitiyList = $this->resultConstructor($result, $reflectionClass);
             }
             else
             {
-                $sql = $this->connection->getSelectSql($reflectionClass);
-                //print_r($sql."\r\n");
-                if($result = $this->connection->query($sql))
-                {
-                    $list = $this->constructEntityByQueryResult($result, $reflectionClass);
-                }
-                else
-                {
-                    throw new Exception("<br><br>Ошибка: " . $this->connection->error);
-                }
+                throw new Exception("Ошибка: " . $this->dbi->error);
             }
-            $this->connection->close();
-            return $list;
+            
+            $this->dbi->close();
+            return $entitiyList;
         }
 
-        public static function constructEntityByQueryResult(object $result, ReflectionClass $reflectionClass)
+
+        private function SelectQueryConstructor(ReflectionClass $ref)
+        {
+
+        }
+
+        
+        private function getListSelectQuery(ReflectionClass $ref)
+        {
+            $sql = '';
+            $sql_where = '';
+            $selectFields = '';
+            $tableName = '';
+            $refProps = $ref->getProperties();
+            $attributes = $ref->getAttributes();
+
+            foreach ($attributes as $attr)
+            {
+                $inst = $attr->newInstance();
+                if(get_class($inst) == 'TableName')
+                {
+                    $tableName = $inst->tableName;
+                }
+            }
+            
+            foreach ($refProps as $refProp) 
+            {            
+                $prop_name = '`'.$refProp->getName().'`,';
+                foreach ($refProp->getAttributes() as $attr)
+                {
+                    if(get_class($attr->newInstance()) == 'EntityId' && $id != null)
+                    {
+                        $sql_where = ' WHERE '.substr($prop_name,0,-1).'='.$id;
+                    }
+                    if(get_class($attr->newInstance()) == 'LinkedEntity')
+                    {
+                        $prop_name='';
+                    }
+                }
+                
+                $selectFields .= $prop_name;
+                
+            }
+
+            $sql = 'select '.substr($selectFields,0,-1).' from `'.$tableName.'`'.$sql_where;
+            //print_r($sql);
+            return $sql;
+        }
+        
+        private function getSingleSelectQuery(ReflectionClass $ref, ?string $id = null)
+        {
+            $sql = '';
+            $sql_where = '';
+            $selectFields = '';
+            $tableName = '';
+            $refProps = $ref->getProperties();
+            $attributes = $ref->getAttributes();
+
+            foreach ($attributes as $attr)
+            {
+                $inst = $attr->newInstance();
+                if(get_class($inst) == 'TableName')
+                {
+                    $tableName = $inst->tableName;
+                }
+            }
+            
+            foreach ($refProps as $refProp) 
+            {            
+                $prop_name = '`'.$refProp->getName().'`,';
+                foreach ($refProp->getAttributes() as $attr)
+                {
+                    if(get_class($attr->newInstance()) == 'EntityId' && $id != null)
+                    {
+                        $sql_where = ' WHERE '.substr($prop_name,0,-1).'='.$id;
+                    }
+                    if(get_class($attr->newInstance()) == 'LinkedEntity')
+                    {
+                        $prop_name='';
+                    }
+                }
+                
+                $selectFields .= $prop_name;
+                
+            }
+
+            $sql = 'select '.substr($selectFields,0,-1).' from `'.$tableName.'`'.$sql_where;
+            //print_r($sql);
+            return $sql;
+        }
+
+        private function resultConstructor(object $result, ReflectionClass $reflectionClass)
         {
             $list = [];
             $reflectionProperties = $reflectionClass->getProperties();
@@ -83,7 +167,6 @@ namespace TaurusOmsApi\Core\EntityFramework
                     {
                         $fieldName = $refProp->getName();
                         $item->$fieldName = $row[$fieldName];
-                        //print_r($refProp->getName()."\r\n");
                     }
                 }
                 $list []= $item;

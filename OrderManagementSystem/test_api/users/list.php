@@ -3,23 +3,23 @@ namespace TaurusOmsApi
 {
     use ReflectionClass;
     use Exception;
-    use TaurusOmsApi\Core\ErrorHandler;
-    use TaurusOmsApi\Core\EntityFramework\EntityFramework;
+    use TaurusOmsApi\ErrorHandler;
+    use TaurusOmsApi\EntityFramework;
     
     header('Content-Type: application/json; charset=utf-8');
 
-    $entityFramework;
+    $ef;
     $output = [];
     $output['data'] = '';
-    $output['response'] = 'ok';
+    $output['response'] = 'error';
     try
     {
-        $entityFramework = new TaurusOmsApi\Core\EntityFramework EntityFramework();
-        $output['data'] = $entityFramework->GetEntityList(new ReflectionClass("User"), 0);
+        $ef = new EntityFramework();
+        $output['data'] = $ef->GetEntityList(new ReflectionClass("User"), 0);
+        $output['response'] = 'ok';
     }
     catch(Exception $ex)
     {
-        $output['response'] = 'error';
         $output['data'] = ErrorHandler::getError($ex);
     }
     finally

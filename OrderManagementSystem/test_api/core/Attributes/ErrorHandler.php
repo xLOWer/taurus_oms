@@ -1,31 +1,6 @@
-<?php namespace TaurusOmsApi\Core
+<?php namespace TaurusOmsApi
 {
-	use Attribute;
 	use Exception;
-	
-	#[Attribute(Attribute::TARGET_CLASS)]
-	class TableName
-	{
-		public function __construct(public ?string $tableName = null) { }
-	}
-	
-	#[Attribute(Attribute::TARGET_PROPERTY)]
-	class EntityId
-	{
-		public function __construct() { }
-	}
-	
-	#[Attribute(Attribute::TARGET_PROPERTY | Attribute::IS_REPEATABLE)]
-	class LinkedEntity
-	{
-		public function __construct() { }
-	}
-	
-	#[Attribute(Attribute::TARGET_PROPERTY | Attribute::IS_REPEATABLE)]
-	class EntityInvisible
-	{
-		public function __construct() { }
-	}
 	
 	class ErrorHandler
 	{
@@ -34,8 +9,8 @@
 		private $_file = '';
 		private $_line = '';
 		private $_tace = '';
-		private Exception $_ex;
 		private $_err = [];
+		private Exception $_ex;
 	
 		function __construct(Exception $exception)
 		{

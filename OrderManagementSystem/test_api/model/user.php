@@ -1,9 +1,11 @@
 <?php
-namespace TaurusOmsApi\Core\Model
+namespace TaurusOmsApi
 {
-	use TaurusOmsApi\Core\TableName;
-	use TaurusOmsApi\Core\EntityId;
-	use TaurusOmsApi\Core\LinkedEntity;
+	use TaurusOmsApi\TableName;
+	use TaurusOmsApi\EntityId;
+	use TaurusOmsApi\LinkedEntity;
+	use TaurusOmsApi\EntityInvisible;
+	use TaurusOmsApi\Model\Client;
 
 	#[TableName('users')]
 	class User
@@ -19,7 +21,7 @@ namespace TaurusOmsApi\Core\Model
 		public string $registred_date = '';
 		public ?string $is_deleted = null;
 
-		#[LinkedEntity]
+		#[LinkedEntity(new Relation())]
 		public ?Client $Client;	
 		//#[LinkedEntity]
 		//public ?PrivGroup $PrivGroup;

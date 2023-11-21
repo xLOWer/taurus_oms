@@ -1,9 +1,10 @@
 <?php
-namespace TaurusOmsApi\Core\Model
+namespace TaurusOmsApi
 {
-	use TaurusOmsApi\Core\TableName;
-	use TaurusOmsApi\Core\EntityId;
-	use TaurusOmsApi\Core\LinkedEntity;
+	use TaurusOmsApi\TableName;
+	use TaurusOmsApi\EntityId;
+	use TaurusOmsApi\LinkedEntity;
+	use TaurusOmsApi\EntityInvisible;
 
 	#[TableName('clients')]
 	class Client
