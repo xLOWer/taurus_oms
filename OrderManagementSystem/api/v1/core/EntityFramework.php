@@ -25,10 +25,10 @@ namespace TaurusOmsApi
 
         }
 
-        public function UpdateSingleEntity(ReflectionClass $reflectionClass, string $id){}
-        public function DeleteSingleEntity(ReflectionClass $reflectionClass, string $id){}
+        public function Update(ReflectionClass $reflectionClass, string $id){}
+        public function Delete(ReflectionClass $reflectionClass, string $id){}
 
-        public function GetSingleEntity(ReflectionClass $reflectionClass, string $id)
+        public function GetSingle(ReflectionClass $reflectionClass, string $id)
         {
             $result = $reflectionClass->newInstance();
             //$sql = $this->dbi->getSelectSql($reflectionClass, $id);
@@ -36,7 +36,7 @@ namespace TaurusOmsApi
             return $result;
         }
 
-        public function GetListOfEntities(ReflectionClass $reflectionClass)
+        public function GetList(ReflectionClass $reflectionClass)
         {
             $entitiyList = [];
             $sql = $this->getListSelectQuery($reflectionClass);
