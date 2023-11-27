@@ -1,6 +1,6 @@
-<?php namespace TaurusOmsApi
+<?php namespace Core\Misc
 {
-    use TaurusOmsApi\RelationType;
+    use Core\Misc\RelationType;
 
     class Relation
     {

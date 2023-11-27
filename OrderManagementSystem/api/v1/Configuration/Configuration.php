@@ -1,5 +1,5 @@
 <?php
-namespace TaurusOmsApi\Configuration
+namespace Configuration
 {
     use Exception;
     use ReflectionClass;

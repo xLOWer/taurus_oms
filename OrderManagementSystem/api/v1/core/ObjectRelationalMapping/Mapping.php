@@ -1,7 +1,9 @@
-<?php namespace TaurusOmsApi
+<?php namespace Core\ObjectRelationalMapping
 {
     use ReflectionClass;
     use ReflectionProperty;
+    use Core\Misc\Relation;
+    use Core\Misc\RelationType;
     
     class Mapping
     {

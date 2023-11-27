@@ -1,16 +1,12 @@
 <?php
-namespace TaurusOmsApi
+namespace Model
 {
-	use TaurusOmsApi\TableName;
-	use TaurusOmsApi\EntityId;
-	use TaurusOmsApi\LinkedEntity;
-	use TaurusOmsApi\EntityInvisible;
-	use TaurusOmsApi\Model\Client;
+	use Model\Client;
 
-	#[TableName('users')]
+	//#[TableName('users')]
 	class User
 	{
-		#[EntityId]
+		//#[EntityId]
 		public int $user_id = 0;
 		public string $email = '';
 		public string $password_hash = '';
@@ -21,7 +17,7 @@ namespace TaurusOmsApi
 		public string $registred_date = '';
 		public ?string $is_deleted = null;
 
-		#[LinkedEntity(new Relation())]
+		//#[LinkedEntity(new Relation())]
 		public ?Client $Client;	
 		//#[LinkedEntity]
 		//public ?PrivGroup $PrivGroup;

@@ -1,11 +1,11 @@
 <?php 
-namespace TaurusOmsApi
+namespace Core\ObjectRelationalMapping
 {
     use ReflectionClass;
     use mysqli;
     use Exception;
-    use TaurusOmsApi\Configuration\Configuration;
-    use TaurusOmsApi\DatabaseInterface;
+    use Configuration\Configuration;
+    use Core\Database\DatabaseInterface;
 
     class EntityFramework
     {

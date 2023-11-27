@@ -1,5 +1,5 @@
 <?php
-namespace TaurusOmsApi
+namespace Core\Database
 {
     use mysqli;
     use Exception;

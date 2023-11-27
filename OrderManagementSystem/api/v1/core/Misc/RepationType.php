@@ -1,4 +1,5 @@
-<?php namespace TaurusOmsApi
+<?php 
+namespace Core\Misc
 {
     enum RelationType
     {
@@ -8,5 +9,4 @@
         case ManyToMany;
     }
 }
-
 ?>

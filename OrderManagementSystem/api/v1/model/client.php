@@ -1,15 +1,15 @@
 <?php
-namespace TaurusOmsApi
+namespace Model
 {
-	use TaurusOmsApi\TableName;
-	use TaurusOmsApi\EntityId;
-	use TaurusOmsApi\LinkedEntity;
-	use TaurusOmsApi\EntityInvisible;
+	//use TaurusOmsApi\TableName;
+	//use TaurusOmsApi\EntityId;
+	//use TaurusOmsApi\LinkedEntity;
+	//use TaurusOmsApi\EntityInvisible;
 
-	#[TableName('clients')]
+	//#[TableName('clients')]
 	class Client
 	{
-		#[EntityId]
+		//#[EntityId]
 		public int $client_id = 0;
 		public string $name = '';
 		public ?string $who_recommend_me = null;

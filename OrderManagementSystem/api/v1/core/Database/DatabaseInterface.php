@@ -1,10 +1,10 @@
 <?php
-namespace TaurusOmsApi
+namespace Core\Database
 {
     use ReflectionClass;
     use mysqli;
     use Exception;
-    use TaurusOmsApi\DbMysql;
+    use Core\Database\DbMysql;
 
     class DatabaseInterface extends mysqli
     {

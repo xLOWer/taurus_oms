@@ -1,4 +1,4 @@
-<?php namespace TaurusOmsApi
+<?php namespace TaurusOmsApi\Core\Attributes
 {
 	use Attribute;
 	
