@@ -1,21 +1,22 @@
 <?php
 namespace Controllers
 {
-    use Core\Router;
+
+    use Core\Database\DatabaseInterface;
     use Core\Misc\Pagination;
 
     interface IController
     {
-        //public Router $router;
-        public function All() : string;
-        public function New() : string;
-        public function Update(string $id) : bool;
-        public function Delete(string $id) : bool;
+        function get() : string;
+        function getById() : string;
+        function post() : string;
+        function put() : bool;
+        function delete() : bool;
         /**
          * @param Array $page
          * @param Pagination $pagination_type
          */
-        public function Page(int $page, Pagination $pagination_type) : string;
+        function getOfPage(int $page, Pagination $pagination_type) : string;
     }
 }
 ?>

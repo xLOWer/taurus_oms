@@ -1,41 +1,44 @@
 <?php
 namespace Controllers
 {
-    use Core\Router;
     use Core\Misc\Pagination;
+    use Core\Logger;
 
     class UserController extends BaseController
     {
         public function __construct() 
-        {
+        {            
+            Logger::debug($this::class.' __construct');
         }
 
-        public function All() : string // get
+        public function get() : string // get
         {
-            return "User All";
+            Logger::debug($this::class.' Delete');
+            return "";
         }
 
-        public function New() : string // post
+        public function post() : string // post
         {
             $id = random_int(1, 50);
-            echo 'User New id='.$id;
+            Logger::debug( $this::class.' post'.$id);
             return $id;
         }
 
-        public function Update(string $id) : bool // put
+        public function put() : bool // put
         {
-            echo 'User Update id='.$id;
+            Logger::debug($this::class.' put');
             return false;
         }
 
-        public function Delete(string $id) : bool // delete
+        public function delete() : bool // delete
         {
-            echo 'User Delete id='.$id;
+            Logger::debug($this::class.' delete');
             return false;
         }
 
-        public function Page(int $page, Pagination $p) : string // get
+        public function getOfPage(int $page, Pagination $p) : string // get
         {            
+            Logger::debug($this::class.' getOfPage');
             $output = 'User Page '.$page.' (by ';
             switch($p)
             {
@@ -51,6 +54,7 @@ namespace Controllers
          */
         private  function getSelectAll($exclude_fields = null)
         {
+            Logger::debug(UserController::class.' getSelectAll');
             return "select * from users";
         }
     }

@@ -1,81 +1,108 @@
 <?php
 namespace Core
 {
-    /*
-    example for users:
-    GET
-    1) /users           - get all users
-    2) /users/{id}      - get one user by id
-    3) /users/page/50/2 - get 2-nd page by 50 items per page
-    POST
-    1) /users           - add new user (data in json body of request)
-    DELETE
-    1) /users/{id}      - delete user by id
-    PUT
-    1) /users/{id}      - edit user by id (data in json body of request)
-    */
     use Core\Misc\HttpMethod;
+    use Controllers\AddressController;
+    use Controllers\CachOperationController;
+    use Controllers\CheckController;
+    use Controllers\ClientController;
+    use Controllers\DeviceController;
+    use Controllers\DeviceTypeController;
+    use Controllers\OrderController;
+    use Controllers\PhoneController;
+    use Controllers\PrivGroupController;
+    use Controllers\PrivilegesController;
+    use Controllers\ServiceController;
+    use Controllers\ServiceGroupController;
     use Controllers\UserController;
-    use Controllers\IController;
+    use ReflectionClass;
+    use Core\Route;
+    use Core\Logger;
 
     class Router
     {
-        private string $_currentRoute = '';
-        private HttpMethod $_currentMethod = HttpMethod::GET;
-        private Array $_currentFormData = [];
-        private Array $_currentUrlData = [];
         private Array $_routesList = [];
+        public static bool $DebugMode = true;
 
-        /**
-         * @param Route $route
-         * @param HttpMethod $method
-         * @param Array|string $formData
-         * @param Array|string $urlData
-         */
-        public function __construct($route, $method, $formData, $urlData)
+        public function __construct()
         {
-            
-            $this->_currentRoute = $route;
-            $this->_currentMethod = $method;
-            $this->_currentFormData = $formData;
-            $this->_currentUrlData = $urlData;
+            Logger::debug($this::class.' __construct');
+            $this->RegisterControllers();
+        }
+
+        function notFound() 
+        {
+            Logger::debug($this::class.' notFound');
+            header("HTTP/1.0 404 Not Found");
+            return 'Нет такой страницы';
+        }
+
+        public function get($route, $formData, $urlData)
+        {
+            Logger::debug($this::class.' get('.$route.')');
+            $method = $this->getMethod($route);
+            Logger::dump($method);
+            $ReflectionClass = new ReflectionClass(UserController::class);
+            Logger::dump($ReflectionClass);
+            $newInstance = $ReflectionClass->newInstance();
+            Logger::dump($newInstance);
+            $initInstance = $newInstance();
+            Logger::dump($initInstance);
+            //$newInstance->$method();
             return $this;
         }
 
-        public function getCurrentMethod()
+        public function post($route, $formData, $urlData)
         {
-            return $this->_currentMethod;
+            Logger::debug($this::class.' post('.$route.')');
+            return $this;
         }
 
-        public function getCurrentUrlData()
+        public function put($route, $formData, $urlData)
         {
-            return $this->_currentUrlData;
+            Logger::debug($this::class.' put('.$route.')');
+            return $this;
         }
 
-        public function getCurrentRoute()
+        public function delete($route, $formData, $urlData)
         {
-            return $this->_currentRoute;
+            Logger::debug($this::class.' delete('.$route.')');
+            return $this;
         }
-
-        public function getCurrentFormData()
-        {
-            return $this->_currentFormData;
-        }
-
-        
-        protected UserController $userController;
-        protected UserController $clientController;
 
         private function RegisterControllers()
         {
-            $this->userController = new UserController();
+            Logger::debug($this::class.' RegisterControllers');
+            $this->_routesList []= new Route('users','get','get', UserController::class);
+            $this->_routesList []= new Route('users','get','getById', UserController::class);
+            Logger::debug($this::class.' RegisterControllers registred: '.count($this->_routesList).' route(s)');
+        }
+
+        private function getMethod($path)
+        {
+            foreach ($this->_routesList as $route) 
+            {
+                Logger::debug($this::class.' getMethod('.$path.')');
+                // если маршрут сопадает с путем, возвращаем функцию
+                if ($path === $route) 
+                {                    
+                    return $route->Method;
+                }
+            }
+            return http_response_code(404);
         }
         
+        /**
+         * @param HttpMethod $method
+        */
         static function getFormData($method) 
         {
-            // GET или POST: данные возвращаем как есть
-            if ($method === 'GET') return $_GET;
-            if ($method === 'POST') return $_POST;
+            Logger::debug(Router::class.' getFormData');
+            switch($method)
+            {
+                case HttpMethod::GET: return $_GET; break;
+                case HttpMethod::POST: return $_POST; break;
+            }
         
             // PUT, PATCH или DELETE
             $data = array();

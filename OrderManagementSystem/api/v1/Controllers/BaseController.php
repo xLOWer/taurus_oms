@@ -1,85 +1,69 @@
 <?php
 namespace Controllers
 {
-    use Core\Router;
-    use Core\Misc\Pagination;
-    use Controllers\IController;
-    use Core\Misc\HttpMethod;
-    
+	use Core\Router;
+	use Core\Misc\Pagination;
+	use Controllers\IController;
+	use Core\Misc\HttpMethod;
+	use Core\Database\DatabaseInterface;
+    use Core\Logger;
 
-    /**
-     * @template T
-     */
-    class BaseController implements IController
-    {
-        public function __construct() 
-        {
-            /*
-            $this->router = $router;
-            switch($this->router->getCurrentMethod())
-            {
-                case HttpMethod::GET: 
-                    $this->All();
-                    break;
+	class BaseController implements IController
+	{
+		public string $id_name;
+		public string $select_template;
+		public string $where_template;
+        public DatabaseInterface $db;
 
-                case HttpMethod::POST: 
-                    $this->New();
-                    break;
+		public function __construct() 
+		{
+            Logger::debug($this::class.' __construct');
+			$db = new DatabaseInterface();
+		}
 
-                case HttpMethod::PUT: 
-                    $this->Update($id);
-                    break;
+		public function get() : string // get
+		{
+            Logger::debug($this::class.' get');
+			return "Base get";
+		}
 
-                case HttpMethod::DELETE: 
-                    $this->Delete();
-                    break;
-            }
-            */
-        }
+		public function getById() : string // get
+		{
+            Logger::debug($this::class.' getById');
+			return "Base getById";
+		}
 
-        public function All() : string // get
-        {
-            return "Base All";
-        }
+		public function post() : string // post
+		{
+			$id = random_int(1, 50);
+            Logger::debug($this::class.' post id='.$id);
+			return $id;
+		}
 
-        public function New() : string // post
-        {
-            $id = random_int(1, 50);
-            echo 'Base New id='.$id;
-            return $id;
-        }
+		public function put() : bool // put
+		{
+            Logger::debug($this::class.' put');
+			return false;
+		}
 
-        public function Update(string $id) : bool // put
-        {
-            echo 'Base Update id='.$id;
-            return false;
-        }
+		public function delete() : bool // delete
+		{
+            Logger::debug($this::class.' delete');
+			return false;
+		}
 
-        public function Delete(string $id) : bool // delete
-        {
-            echo 'Base Delete id='.$id;
-            return false;
-        }
-
-        public function Page(int $page, Pagination $p) : string // get
-        {            
-            $output = 'Base Page '.$page.' (by ';
-            switch($p)
-            {
-                case Pagination::By10PerPage: $output .= '10'; break;
-                case Pagination::By50PerPage: $output .= '50'; break;
-                case Pagination::By100PerPage: $output .= '100'; break;
-            }
-            return $output.' per page)';
-        }
-
-        /**
-         * @param Array $exclude_fields
-         */
-        private  function getSelectAll($exclude_fields = null)
-        {
-            return "select * from users";
-        }
-    }
+		public function getOfPage(int $page, Pagination $p) : string // get
+		{
+            Logger::debug($this::class.' getOfPage');
+			$output = 'Base getOfPage '.$page.' (by ';
+			switch($p)
+			{
+				case Pagination::By10PerPage: $output .= '10'; break;
+				case Pagination::By50PerPage: $output .= '50'; break;
+				case Pagination::By100PerPage: $output .= '100'; break;
+			}
+			return $output.' per page)';
+		}
+	}
 }
 ?>

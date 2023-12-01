@@ -5,25 +5,37 @@ namespace api
 
     use Core\Misc\HttpMethod;
     use Core\Router;
-    
-    $url = (isset($_GET['q'])) ? $_GET['q'] : '';
-    $url = rtrim($url, '/');
-    $urls = explode('/', $url);
-    $method = HttpMethod::GET;
-    
-    switch($_SERVER['REQUEST_METHOD'])
-    {
-        case 'GET':     $method = HttpMethod::GET;      break;
-        case 'POST':    $method = HttpMethod::POST;     break;
-        case 'PUT':     $method = HttpMethod::PUT;      break;
-        case 'DELETE':  $method = HttpMethod::DELETE;   break;
-    }
+    use Core\Logger;
 
-    new Router(
-        $urls[0],
-        $_SERVER['REQUEST_METHOD'],
-        Router::getFormData($_SERVER['REQUEST_METHOD']),
-        array_slice($urls, 1)
-    );
+    Api::Run();
+    
+    class Api
+    {
+        public static function Run()
+        {
+            //Logger::offDebug();
+            Logger::debug(Api::class.' Run');
+            $router = new Router();
+            $url = (isset($_GET['q'])) ? $_GET['q'] : '';
+            $url = rtrim($url, '/');
+            $urls = explode('/', $url);
+            
+            switch($_SERVER['REQUEST_METHOD'])
+            {
+                case 'GET':     
+                    $router->get($urls[0], Router::getFormData(HttpMethod::GET), array_slice($urls, 1));
+                    break;
+                case 'POST':
+                    $router->post($urls[0], Router::getFormData(HttpMethod::POST), array_slice($urls, 1));
+                    break;
+                case 'PUT':
+                    $router->put($urls[0], Router::getFormData(HttpMethod::PUT), array_slice($urls, 1));
+                    break;
+                case 'DELETE':  
+                    $router->delete($urls[0], Router::getFormData(HttpMethod::DELETE), array_slice($urls, 1));
+                    break;
+            }
+        }
+    }
 }
 ?>
