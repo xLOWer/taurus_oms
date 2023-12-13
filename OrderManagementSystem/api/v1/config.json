@@ -1,0 +1,8 @@
+{
+    "sql_ip": "77.34.74.144",
+    "sql_login": "xlower",
+    "sql_pwd": "su4kaebanayaTbl",
+    "sql_db": "taurus_service_vl",
+    "log_level": "trace",
+    "log_file": "/log.txt"
+}

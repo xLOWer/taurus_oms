@@ -3,9 +3,14 @@ namespace Model
 {
 	use Model\Client;
 	use Model\PrivGroup;
+	use Core\Misc\IdAttribute;
+	use Core\Misc\TableNameAttribute;
+	use Core\Misc\LinkedObjectAttribute;
 
+	#[TableNameAttribute('users')]
 	class User
 	{
+		#[IdAttribute]
 		public string $user_id = '';
 		public string $email = '';
 		public string $password_hash = '';
@@ -17,8 +22,19 @@ namespace Model
 
 		public ?string $is_deleted = null;
 
+		#[LinkedObjectAttribute]
 		public ?Client $Client;	
+		#[LinkedObjectAttribute]
 		public ?PrivGroup $PrivGroup;
 	}
 }
+/*
+
+	use Core\Misc\IdAttribute;
+	use Core\Misc\TableNameAttribute;
+	use Core\Misc\LinkedObjectAttribute;
+#[IdAttribute]
+#[TableNameAttribute('users')]
+#[LinkedObjectAttribute]
+*/
 ?>

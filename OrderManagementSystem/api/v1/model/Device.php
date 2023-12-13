@@ -3,9 +3,14 @@ namespace Model
 {
 	use Model\Client;
 	use Model\DeviceType;
+	use Core\Misc\IdAttribute;
+	use Core\Misc\TableNameAttribute;
+	use Core\Misc\LinkedObjectAttribute;
 	
+	#[TableNameAttribute('devices')]
 	class Device extends BaseEntity
 	{
+		#[IdAttribute]
 		public string $device_id = '';
 		public ?string $owner_client_id = null;
 		public string $device_type_id = '';
@@ -15,10 +20,22 @@ namespace Model
 		public ?string $description = null;
 		public ?string $serial_number = null;
 
+		#[LinkedObjectAttribute]
 		public ?Client $OwnerClient;
+		#[LinkedObjectAttribute]
 		public ?DeviceType $DeviceType;
+		#[LinkedObjectAttribute]
 		public ?Device $ParentDevice;
 
 	}
 }
+/*
+
+	use Core\Misc\IdAttribute;
+	use Core\Misc\TableNameAttribute;
+	use Core\Misc\LinkedObjectAttribute;
+#[IdAttribute]
+#[TableNameAttribute('users')]
+#[LinkedObjectAttribute]
+*/
 ?>

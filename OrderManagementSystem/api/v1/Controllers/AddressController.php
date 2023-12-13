@@ -1,42 +1,54 @@
 <?php
 namespace Controllers
 {
-    use Core\Router;
     use Core\Misc\Pagination;
+    use Mapping\ObjectMap;
+    use Core\Logger;
+    use Model\Address;
 
     class AddressController extends BaseController
     {
-        public function __construct() 
-        {
+        public function __construct($parameters, $data) 
+        {            
+            Logger::debug($this::class, '__construct');
+            parent::__construct();
+            $this->_class = Address::class;
+            $this->Parameters = $parameters;
+            $this->Data = $data;
+            $this->Map = new ObjectMap();
+            $this->Map->SetMappingByClassName($this->_class);
         }
 
-        public function All() : string // get
+        public function get() : string // get
         {
-            return "Address All";
+            Logger::debug($this::class, ' get');
+            parent::get();
+            return "";
         }
 
-        public function New() : string // post
+        public function post() : string // post
         {
             $id = random_int(1, 50);
-            echo 'Address New id='.$id;
+            Logger::debug( $this::class, ' post'.$id);
             return $id;
         }
 
-        public function Update(string $id) : bool // put
+        public function put() : bool // put
         {
-            echo 'Address Update id='.$id;
+            Logger::debug($this::class, ' put');
             return false;
         }
 
-        public function Delete(string $id) : bool // delete
+        public function delete() : bool // delete
         {
-            echo 'Address Delete id='.$id;
+            Logger::debug($this::class, ' delete');
             return false;
         }
 
-        public function Page(int $page, Pagination $p) : string // get
+        public function getOfPage(int $page, Pagination $p) : string // get
         {            
-            $output = 'Address Page '.$page.' (by ';
+            Logger::debug($this::class, ' getOfPage');
+            $output = 'User Page '.$page.' (by ';
             switch($p)
             {
                 case Pagination::By10PerPage: $output .= '10'; break;
@@ -44,14 +56,6 @@ namespace Controllers
                 case Pagination::By100PerPage: $output .= '100'; break;
             }
             return $output.' per page)';
-        }
-
-        /**
-         * @param Array $exclude_fields
-         */
-        private  function getSelectAll($exclude_fields = null)
-        {
-            return "select * from addresses";
         }
     }
 }

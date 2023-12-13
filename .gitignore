@@ -1,2 +1,3 @@
-OrderManagementSystem/test_api/config.json
+OrderManagementSystem/api/v1/config.json
+OrderManagementSystem/api/v1/core/log.txt
 php_errors.log
