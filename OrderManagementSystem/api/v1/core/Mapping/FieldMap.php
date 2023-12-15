@@ -1,5 +1,5 @@
 <?php
-namespace Mapping
+namespace Core\Mapping
 {
 	use Core\Logger;
 
@@ -11,7 +11,8 @@ namespace Mapping
 
 		public function __construct($name, $type, $attributes = null)
 		{
-			Logger::trace($this::class, " __construct(".$name.", ".$type.")");
+            Logger::trace(__CLASS__, __FUNCTION__);
+			Logger::trace_json(__CLASS__, [$name,$type]);
             $this->Name = $name;
             $this->Type = $type;
 			if($attributes != null)

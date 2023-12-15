@@ -11,30 +11,28 @@ namespace Core\Database
 
 	public function __construct($sql_ip, $sql_login, $sql_pwd, $sql_db = null)
 	{
-		Logger::debug($this::class, "__construct");
-		Logger::debug($this::class, $sql_ip);
+		Logger::debug(__CLASS__, __FUNCTION__);
+		Logger::debug_json(__CLASS__, $sql_ip);
 		
 		$this->connection = new mysqli($sql_ip, $sql_login, $sql_pwd, $sql_db);
 		if ($this->connection->connect_error)
 		{
-			$error = "Ошибка подключения к базе данных: " . $this->connection->connect_error;
-			Logger::error($this::class, $error);
-			throw new Exception($error);
+			Logger::error(__CLASS__, $this->connection->connect_error);
+			throw new Exception($this->connection->connect_error);
 		}
 		mysqli_set_charset($this->connection, "utf8mb4");
 		return $this->connection;
 	}
 
-	public function SelectQuery($select_sql)
+	public function SelectQuery(string $select_sql)
 	{
-		Logger::info($this::class, "SelectQuery");
-		Logger::trace($this::class, "SelectQuery(".$select_sql.")");
+		Logger::info(__CLASS__, __FUNCTION__);
+		Logger::trace_json(__CLASS__, $select_sql);
 		$outputData = [];
 		if ($this->connection->connect_error)
 		{
-			$error = "Ошибка подключения к базе данных: " . $this->connection->connect_error;
-			Logger::error($this::class, $error);
-			throw new Exception($error);
+			Logger::error(__CLASS__, $this->connection->connect_error);
+			throw new Exception($this->connection->connect_error);
 		}
 		else
 		{
@@ -51,23 +49,24 @@ namespace Core\Database
 		}
 		else
 		{
-			$error = "Ошибка: " . $this->connection->error;
-			Logger::error($this::class, $error);
-			throw new Exception($error);
+			Logger::error(__CLASS__, $this->connection->error);
+			throw new Exception($this->connection->error);
 		}
 		}
 		$this->connection->close();
 		return $outputData;
 	}
 
-	public function UpdateQuery()
+	public function UpdateQuery(string $select_sql)
 	{
-
+		Logger::info(__CLASS__, __FUNCTION__);
+		Logger::trace_json(__CLASS__, $select_sql);
 	}
 
-	public function DeleteQuery()
+	public function DeleteQuery(string $select_sql)
 	{
-
+		Logger::info(__CLASS__, __FUNCTION__);
+		Logger::trace_json(__CLASS__, $select_sql);
 	}        
 
 	}

@@ -26,52 +26,51 @@ namespace Core
 
         public function __construct()
         {
-            Logger::debug($this::class, '__construct');
+            Logger::debug(__CLASS__, __FUNCTION__);
             $this->RegisterControllers();
         }
 
         public function get($route, $formData, $urlData)
         {
-            Logger::info($this::class, 'get('.$route.')');
-            Logger::trace($this::class, 'formData');
-            Logger::trace_json($this::class, $formData);
-            Logger::trace($this::class, 'urlData');
-            Logger::trace_json($this::class, $urlData);
-            $method = $this->getMethod($route);
+            Logger::info(__CLASS__, __FUNCTION__);
+            Logger::trace_json(__CLASS__, [$route,$formData,$urlData]);
+
+            $currentRoute = '';
+            
             foreach ($this->_routesList as $r) 
             {
                 if($r->Route == $route and $r->Method == HttpMethod::GET)
                 {
-                    $ReflectionClass = new ReflectionClass($r->Controller);
-                    $newInstance = $ReflectionClass->newInstance($urlData, $formData);
-                    $func = $r->Function; // определить метод который указан в регистрации
-                    $newInstance->$func(); // вызвать метод
-                    //Logger::trace_json($this::class, $newInstance);
+                    $currentRoute = $r;
                 }
             }
+            $ReflectionClass = new ReflectionClass($currentRoute->Controller);
+            $newInstance = $ReflectionClass->newInstance($urlData, $formData);
+            $func = $currentRoute->Function; // определить метод который указан в регистрации
+            echo $newInstance->$func(); // вызвать метод
         }
 
         public function post($route, $formData, $urlData)
         {
-            Logger::info($this::class, 'post('.$route.')');
+            Logger::info(__CLASS__, __FUNCTION__);
             return $this;
         }
 
         public function put($route, $formData, $urlData)
         {
-            Logger::info($this::class, 'put('.$route.')');
+            Logger::info(__CLASS__, __FUNCTION__);
             return $this;
         }
 
         public function delete($route, $formData, $urlData)
         {
-            Logger::info($this::class, 'delete('.$route.')');
+            Logger::info(__CLASS__, __FUNCTION__);
             return $this;
         }
 
         private function RegisterControllers()
         {
-            Logger::trace($this::class, 'RegisterControllers');
+            Logger::trace(__CLASS__, __FUNCTION__);
             $this->_routesList []= new Route('addresses',       HttpMethod::GET, 'get', AddressController::class);
             $this->_routesList []= new Route('cashoperations',  HttpMethod::GET, 'get', CashOperationController::class);
             $this->_routesList []= new Route('checks',          HttpMethod::GET, 'get', CheckController::class);
@@ -86,12 +85,13 @@ namespace Core
             $this->_routesList []= new Route('servicegroups',   HttpMethod::GET, 'get', ServiceGroupController::class);            
             $this->_routesList []= new Route('users',           HttpMethod::GET, 'get', UserController::class);
 
-            Logger::trace($this::class, 'RegisterControllers registred: '.count($this->_routesList).' route(s)');
+            Logger::trace(__CLASS__, 'RegisterControllers registred: '.count($this->_routesList).' route(s)');
         }
 
         private function getMethod($path)
         {
-            Logger::trace($this::class, 'getMethod('.$path.')');
+            Logger::trace(__CLASS__, __FUNCTION__);
+            Logger::trace_json(__CLASS__, [$path]);
             foreach ($this->_routesList as $route) 
             {
                 // если маршрут сопадает с путем, возвращаем функцию
@@ -108,7 +108,7 @@ namespace Core
         */
         static function getFormData($method) 
         {
-            Logger::trace(Router::class,'getFormData');
+            Logger::trace(__CLASS__, __FUNCTION__);
             switch($method)
             {
                 case HttpMethod::GET: return $_GET; break;

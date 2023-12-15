@@ -20,7 +20,8 @@ namespace Core
          */
         public function __construct($route, $method, $function, $controller)
         {
-            Logger::trace($this::class, "new Route(".$route.", ".$method->name.", ".$function.", ".$controller.")");
+            Logger::trace(__CLASS__, __FUNCTION__);
+            Logger::trace_json(__CLASS__, [$route,$method->name,$function,$controller]);
             $this->Route = $route;
             $this->Method = $method;
             $this->Function = $function;

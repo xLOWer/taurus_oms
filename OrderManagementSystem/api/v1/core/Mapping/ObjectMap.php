@@ -1,12 +1,12 @@
 <?php
-namespace Mapping
+namespace Core\Mapping
 {
 	use ReflectionClass;
 	use Core\Logger;
     use Core\Misc\IdAttribute;
     use Core\Misc\LinkedObjectAttribute;
     use Core\Misc\TableNameAttribute;
-    use Mapping\FieldMap;
+    use Core\Mapping\FieldMap;
 	use Mapping\AttributeMap;
     use ReflectionProperty;
 
@@ -25,22 +25,45 @@ namespace Mapping
 		public Array $DatabaseTableFields = array();
 
 		private string $_objectType = "";
-		private string $_fields = "";
 
 		public function __construct()
 		{
-			Logger::debug($this::class, " __construct");
+            Logger::debug(__CLASS__, __FUNCTION__);
 		}
 
-		public function GetSelectItemTemplate(int $id)
+		public function GetSelectItemRequest(int $id)
 		{
-			Logger::trace($this::class, "GetSelectItemTemplate(".$id.")");
+            Logger::trace(__CLASS__, __FUNCTION__);
+            Logger::trace_json(__CLASS__, [$id]);
 			return $this->SelectItemTemplate." WHERE `".$this->IdFieldName."`=".$id."";
+		}
+
+		public function GetInsertItemRequest(array $values)
+		{
+            Logger::trace(__CLASS__, __FUNCTION__);
+			$fields = '';
+			foreach($this->ObjectClassFields as $field)
+			{
+				if(count($field->Attributes) > 0)
+					foreach($field->Attributes as $attr)
+					{
+						if($attr != LinkedObjectAttribute::class && IdAttribute::class)
+						{
+							$fields .= "`".$field->Name."`,";
+						}
+					}
+				else
+				{
+					$fields .= "`".$field->Name."`,";
+				}
+			}
+			return $this->InsertItemTemplate."(".$this->IdFieldName;
 		}
 
 		public function SetMappingByClassName(string $className)
 		{
-			Logger::trace($this::class, " setMappingByClassName (".$className.")");
+            Logger::trace(__CLASS__, __FUNCTION__);
+            Logger::trace_json(__CLASS__, [$className]);
 			$this->_objectType = $className;
 			$this->MapProperties();
 			$this->SetTableName();
@@ -54,23 +77,27 @@ namespace Mapping
 
 		public function SetSelectListTemplate(string $sql = null)
 		{
-			Logger::trace($this::class, " SetSelectListTemplate");
+            Logger::trace(__CLASS__, __FUNCTION__);
 			if($sql == null)
 			{
+				$fields = '';
 				foreach($this->ObjectClassFields as $field)
 				{
-					
 					if(count($field->Attributes) > 0)
 						foreach($field->Attributes as $attr)
 						{
-							if($attr !=LinkedObjectAttribute::class)
-								$this->_fields .= "`".$field->Name."`,";
+							if($attr != LinkedObjectAttribute::class)
+							{
+								$fields .= "`".$field->Name."`,";
+							}
 						}
 					else
-						$this->_fields .= "`".$field->Name."`,";
+					{
+						$fields .= "`".$field->Name."`,";
+					}
 				}
-				$this->SelectListTemplate = "SELECT ".substr($this->_fields, 0, -1)." FROM ".$this->TableName;
-				Logger::debug($this::class, $this->SelectListTemplate);
+				$this->SelectListTemplate = "SELECT ".substr($fields, 0, -1)." FROM ".$this->TableName;
+				Logger::debug(__CLASS__, $this->SelectListTemplate);
 			}
 			else
 				$this->SelectListTemplate = $sql;
@@ -78,10 +105,27 @@ namespace Mapping
 
 		public function SetInsertItemTemplate(string $sql = null)
 		{
-			Logger::trace($this::class, " SetInsertItemTemplate");
+            Logger::trace(__CLASS__, __FUNCTION__);
 			if($sql == null)
 			{
-				
+				$fields = '';
+				foreach($this->ObjectClassFields as $field)
+				{
+					if(count($field->Attributes) > 0)
+						foreach($field->Attributes as $attr)
+						{
+							if($attr != LinkedObjectAttribute::class && IdAttribute::class)
+							{
+								$fields .= "`".$field->Name."`,";
+							}
+						}
+					else
+					{
+						$fields .= "`".$field->Name."`,";
+					}
+				}
+				$this->InsertItemTemplate = "INSERT INTO ".$this->TableName."(".substr($fields, 0, -1).") VALUES ";
+				Logger::debug(__CLASS__, $this->InsertItemTemplate);
 			}
 			else
 				$this->InsertItemTemplate = $sql;
@@ -89,7 +133,7 @@ namespace Mapping
 
 		public function SetDeleteItemTemplate(string $sql = null)
 		{
-			Logger::trace($this::class, " SetDeleteItemTemplate");
+            Logger::trace(__CLASS__, __FUNCTION__);
 			if($sql == null)
 			{
 				
@@ -100,7 +144,7 @@ namespace Mapping
 
 		public function SetUpdateItemTemplate(string $sql = null)
 		{
-			Logger::trace($this::class, " SetUpdateItemTemplate");
+            Logger::trace(__CLASS__, __FUNCTION__);
 			if($sql == null)
 			{
 				
@@ -111,7 +155,8 @@ namespace Mapping
 
 		public function MapProperties()
 		{
-			Logger::trace($this::class, " MapProperties (".$this->_objectType.")");
+            Logger::trace(__CLASS__, __FUNCTION__);
+            Logger::trace_json(__CLASS__, [$this->_objectType]);
 			$ref = new ReflectionClass($this->_objectType);
 			$props = $ref->getProperties();
 			foreach ($props as $prop) 
@@ -127,7 +172,7 @@ namespace Mapping
 
 		private function MapAttributes(ReflectionProperty $refProp)
 		{
-			Logger::trace($this::class, " MapAttributes");
+            Logger::trace(__CLASS__, __FUNCTION__);
 			$attributesReturn = array();
 			$attributes = $refProp->getAttributes();
 			if(count($attributes) > 0)
@@ -140,7 +185,7 @@ namespace Mapping
 
 		public function SetIdFieldName(string $name = null)
 		{
-			Logger::trace($this::class, "SetIdFieldName");
+            Logger::trace(__CLASS__, __FUNCTION__);
 			if($name == null)
 			{
 				foreach ($this->ObjectClassFields as $field) 
@@ -148,7 +193,7 @@ namespace Mapping
 					if(isset($field->Attributes) && in_array(IdAttribute::class, $field->Attributes))
 					{
 						$this->IdFieldName = $field->Name;
-						Logger::trace_json($this::class, $field);
+						Logger::trace_json(__CLASS__, $field);
 					}
 					
 				}
@@ -159,7 +204,7 @@ namespace Mapping
 
 		public function SetTableName(string $name = null)
 		{
-			Logger::trace($this::class, " SetTableName");
+            Logger::trace(__CLASS__, __FUNCTION__);
 			if($name == null)
 			{
 				$ref = new ReflectionClass($this->_objectType);

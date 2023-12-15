@@ -35,7 +35,7 @@ namespace Api
                         case 'info': Logger::changeMode(LoggerLevel::INFO);break;
                     }
                 else Logger::changeMode(LoggerLevel::TRACE);
-                Logger::info(Api::class,'Run');
+                Logger::info(__CLASS__, __FUNCTION__);
                 HttpHeaderCode::registerData();
                 $router = new Router();
                 $url = (isset($_GET['q'])) ? $_GET['q'] : '';
@@ -60,7 +60,7 @@ namespace Api
             }
             catch(Exception $ex)
             {
-                Logger::fatal(Api::class, $ex->getMessage());
+                Logger::fatal(__CLASS__, $ex->getMessage());
                 header(HttpHeaderCode::getHeader(500));
             }
         }

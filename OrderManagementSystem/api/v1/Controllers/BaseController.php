@@ -9,7 +9,7 @@ namespace Controllers
 	use Core\Misc\HttpMethod;
 	use Core\Database\DatabaseInterface;
     use Core\Logger;
-    use Mapping\ObjectMap;
+    use Core\Mapping\ObjectMap;
 
 	class BaseController implements IController
 	{
@@ -21,7 +21,7 @@ namespace Controllers
 
 		public function __construct() 
 		{
-            Logger::debug($this::class, 'Base __construct');
+            Logger::debug(__CLASS__, __FUNCTION__);
 			$this->db = new DatabaseInterface(Api::$Configuration->sql_ip,
 										Api::$Configuration->sql_login,
 										Api::$Configuration->sql_pwd,
@@ -30,53 +30,38 @@ namespace Controllers
 
 		public function get() : string // get
 		{
-			Logger::info($this::class, 'Base get');            
-            Logger::trace_json($this::class, $this->Parameters);
+            Logger::trace_json(__CLASS__, $this->Parameters);
+			$sql = '';
             if(isset($this->Parameters) && count($this->Parameters) >= 1)
             {
-                Logger::trace($this::class, "get(item)");
-				$sql = $this->Map->GetSelectItemTemplate($this->Parameters[0]);
-                Logger::trace($this::class, $sql);
+				$sql = $this->Map->GetSelectItemRequest($this->Parameters[0]);
             }
             else
             {
-                Logger::trace($this::class, "get(list)");
 				$sql = $this->Map->SelectListTemplate;
-                Logger::trace($this::class, $sql);
             }
+			Logger::trace(__CLASS__, $sql);
 			$data = $this->db->SelectQuery($sql);
-			echo json_encode($data,JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT);
-			return "Base get";
-		}
-
-		public function getById() : string // get
-		{
-            Logger::info($this::class, 'Base getById');
-			return "Base getById";
+			return json_encode($data,JSON_UNESCAPED_UNICODE);
 		}
 
 		public function post() : string // post
 		{
-			$id = random_int(1, 50);
-            Logger::info($this::class, 'Base post id='.$id);
-			return $id;
+			return json_encode('',JSON_UNESCAPED_UNICODE);
 		}
 
 		public function put() : bool // put
 		{
-            Logger::info($this::class, 'Base put');
 			return false;
 		}
 
 		public function delete() : bool // delete
 		{
-            Logger::info($this::class, 'Base delete');
 			return false;
 		}
 
 		public function getOfPage(int $page, Pagination $p) : string // get
 		{
-            Logger::info($this::class, 'Base getOfPage');
 			$output = 'Base getOfPage '.$page.' (by ';
 			switch($p)
 			{
